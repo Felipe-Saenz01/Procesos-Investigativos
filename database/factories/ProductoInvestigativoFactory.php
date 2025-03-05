@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\TipoProducto;
+use App\Models\SubTipoProducto;
+use App\Models\GrupoInvestigacion;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +21,12 @@ class ProductoInvestigativoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'titulo' => $this->faker->sentence,
+            'resumen' => $this->faker->paragraph,
+            'grupo_investigacion_id' => GrupoInvestigacion::factory(),
+            'user_id' => User::factory(),
+            // 'tipo_producto_id' => TipoProducto::factory(),
+            'sub_tipo_producto_id' => SubTipoProducto::factory(),
         ];
     }
 }

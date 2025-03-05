@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductoInvestigativo;
+use App\Models\GrupoInvestigacion;
 use Illuminate\Http\Request;
 
 class ProductoInvestigativoController extends Controller
@@ -12,7 +13,10 @@ class ProductoInvestigativoController extends Controller
      */
     public function index()
     {
-        //
+        // Obtener todos los grupos con sus productos y usuarios
+        $grupos = GrupoInvestigacion::with('productosInvestigativos.usuario', 'productosInvestigativos.subTipoProducto')->get();
+
+        return view('productos-investigativos.index', compact('grupos'));
     }
 
     /**
@@ -34,9 +38,19 @@ class ProductoInvestigativoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductoInvestigativo $productoInvestigativo)
+    public function show(ProductoInvestigativo $productos_investigativo)
     {
-        //
+        
+        // Obtener el producto con sus relaciones
+        $productos_investigativo->load([
+            'usuario',
+            'grupoInvestigacion',
+            'subTipoProducto',
+            'entregas'
+        ]);
+    
+        return view('productos-investigativos.show', compact('productos_investigativo'));
+        // return $productos_investigativo;
     }
 
     /**

@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Agregar el campo 'role'
+        'grupo_investigacion_id', // Agregar la clave foránea
     ];
 
     /**
@@ -45,4 +47,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relación con ProductoInvestigativo
+    public function productosInvestigativos()
+    {
+        return $this->hasMany(ProductoInvestigativo::class);
+    }
+
+    // Relación con GrupoInvestigacion
+    public function gruposInvestigacion()
+    {
+        return $this->belongsToMany(GrupoInvestigacion::class);
+    }
+
 }
