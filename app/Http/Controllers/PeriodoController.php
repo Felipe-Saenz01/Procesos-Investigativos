@@ -12,7 +12,8 @@ class PeriodoController extends Controller
      */
     public function index()
     {
-        //
+        $periodos = Periodo::all();
+        return view('parametros.periodos.index', ['periodos' => $periodos]);
     }
 
     /**
@@ -20,7 +21,7 @@ class PeriodoController extends Controller
      */
     public function create()
     {
-        //
+        return view('parametros.periodos.create');
     }
 
     /**
@@ -28,7 +29,12 @@ class PeriodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:periodos,nombre',
+        ]);
+
+        Periodo::create($request->only('nombre'));
+        return redirect()->route('parametros.periodos.index')->with('success', 'Período creado exitosamente.');
     }
 
     /**
@@ -44,7 +50,7 @@ class PeriodoController extends Controller
      */
     public function edit(Periodo $periodo)
     {
-        //
+        return view('parametros.periodos.edit', ['periodo' => $periodo]);
     }
 
     /**
@@ -52,7 +58,12 @@ class PeriodoController extends Controller
      */
     public function update(Request $request, Periodo $periodo)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:periodos,nombre,' . $periodo->id,]);
+    
+        $periodo->update($request->only('nombre'));
+    
+        return redirect()->route('parametros.periodos.index')->with('success', 'Período actualizado exitosamente.');
     }
 
     /**
@@ -60,6 +71,7 @@ class PeriodoController extends Controller
      */
     public function destroy(Periodo $periodo)
     {
-        //
+        $periodo->delete();
+        return redirect()->route('parametros.periodos.index')->with('success', 'Período eliminado exitosamente.');
     }
 }

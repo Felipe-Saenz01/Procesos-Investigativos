@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GrupoInvestigacionController;
 use App\Http\Controllers\ProductoInvestigativoController;
+use App\Http\Controllers\PeriodoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,10 +26,13 @@ Route::get('/grupo-investigacion', [GrupoInvestigacionController::class, 'index'
     
     
     // Productos Investigativos
-    Route::resource('productos-investigativos', ProductoInvestigativoController::class)->middleware(['auth', 'verified']);
-    // Route::get('productos', [ProductoInvestigativoController::class, 'index'])
-    // ->middleware(['auth', 'verified'])->name('productos.index');
-    // Route::get('productos/{id}', [ProductoInvestigativoController::class, 'show'])
-    // ->middleware(['auth', 'verified'])->name('productos.show');
+    Route::resource('productos-investigativos', ProductoInvestigativoController::class)
+    ->middleware(['auth', 'verified']);
+
+    Route::prefix('parametros')->name('parametros.')->group(function(){
+        Route::resource('periodos', PeriodoController::class)->middleware(['auth', 'verified']);
+
+    });
+   
 
 require __DIR__.'/auth.php';
